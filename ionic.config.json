@@ -1,0 +1,7 @@
+{
+  "name": "tenzies",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
