@@ -3,6 +3,7 @@ import './TenziesContainer.css'
 import Dice from './Dice';
 import {nanoid} from "nanoid"
 import Confetti from 'react-confetti';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 function App() {
   const [dice, setDice] = React.useState(allNewDice());
@@ -31,6 +32,7 @@ function App() {
   }
 
   function rollDice(){
+    Haptics.impact({style: ImpactStyle.Medium});
     if(tenzies){
       setTenzies(false)
       setDice(allNewDice())
@@ -42,7 +44,9 @@ function App() {
   }
 
   function holdDice(id){
-    console.log('Dice id: ' + id)
+    Haptics.impact({style: ImpactStyle.Medium});
+    console.log('Looking for haptic feedback');
+    Haptics.vibrate({duration: 500});
     setDice(oldDice => oldDice.map(die => {
       return die.id == id ? { ...die, isHeld: !die.isHeld} : die
     }))
