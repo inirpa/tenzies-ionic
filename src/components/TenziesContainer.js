@@ -9,6 +9,17 @@ function App() {
   const [dice, setDice] = React.useState(allNewDice());
   const diceElements = dice.map(die => <Dice key={die.id} value={die.value} isHeld={die.isHeld} holdDice={() => holdDice(die.id)} />)
   const [tenzies, setTenzies] = React.useState(false);
+  const hapticsVibrate = async () => {
+    await Haptics.vibrate({duration: 5});
+  };
+
+  const hapticsImpactLight = async () => {
+    await Haptics.impact({ style: ImpactStyle.Light });
+  };
+
+  const hapticsImpactHeavy = async () => {
+    await Haptics.impact({ style: ImpactStyle.Heavy });
+  };
 
   React.useEffect(() => {
     console.log('state changed');    
@@ -32,7 +43,7 @@ function App() {
   }
 
   function rollDice(){
-    Haptics.impact({style: ImpactStyle.Medium});
+    hapticsImpactHeavy();
     if(tenzies){
       setTenzies(false)
       setDice(allNewDice())
@@ -44,11 +55,9 @@ function App() {
   }
 
   function holdDice(id){
-    Haptics.impact({style: ImpactStyle.Medium});
-    console.log('Looking for haptic feedback');
-    Haptics.vibrate({duration: 500});
+    hapticsImpactLight();
     setDice(oldDice => oldDice.map(die => {
-      return die.id == id ? { ...die, isHeld: !die.isHeld} : die
+      return die.id === id ? { ...die, isHeld: !die.isHeld} : die
     }))
   }
 
